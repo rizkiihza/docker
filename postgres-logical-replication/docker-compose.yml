@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  postgres-master:
+    image: postgres:14-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rizkidb
+    volumes:
+      - ./master/config/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./master/config/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - ./master/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf 
+    
+  postgres-replica:
+    image: postgres:14-alpine
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rizkidb
+    volumes:
+      - ./replica/config/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./replica/config/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - ./replica/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf 
+    depends_on: 
+      - postgres-master

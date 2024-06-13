@@ -1,0 +1,1 @@
+CREATE SUBSCRIPTION logicalsubscription CONNECTION 'host=postgres-master port=5432 dbname=rizkidb user=user' PUBLICATION logicalpublication

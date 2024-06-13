@@ -1,0 +1,1 @@
+CREATE PUBLICATION logicalpublication FOR ALL TABLES;
